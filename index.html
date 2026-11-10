@@ -6,17 +6,341 @@
     <title>Document</title>
 </head>
 <body>
-    <p style="color: blue;">Hola Mundo</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
-    <p>Mi nombre</p>
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curriculum Vitae — Tu Nombre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* -------------------------------------------------
+     Tokens
+  ------------------------------------------------- */
+  :root{
+    --paper: #F6F4EE;
+    --paper-alt: #EFECE2;
+    --chrome: #ECE9DF;
+    --line: #DAD6C9;
+    --ink: #20241F;
+    --ink-soft: #5B6156;
+    --comment: #4F7858; /* section labels, like a code comment */
+    --keyword: #3B5BA5; /* dates / emphasis, like a keyword */
+    --string: #9C5A1D;  /* companies, institutions, tags, like a string literal */
+    --dot-red: #E2695C;
+    --dot-yellow: #E7B84C;
+    --dot-green: #6FB583;
+  }
 
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    padding: 48px 16px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.5;
+  }
+
+  .mono{ font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  .window{
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--paper-alt);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(20, 20, 10, 0.04);
+    overflow: hidden;
+  }
+
+  /* -------------------------------------------------
+     Editor chrome bar
+  ------------------------------------------------- */
+  .chrome-bar{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 16px;
+    background: var(--chrome);
+    border-bottom: 1px solid var(--line);
+  }
+  .dot{ width: 10px; height: 10px; border-radius: 50%; }
+  .dot.red{ background: var(--dot-red); }
+  .dot.yellow{ background: var(--dot-yellow); }
+  .dot.green{ background: var(--dot-green); }
+  .chrome-title{
+    margin: 0 auto;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+
+  /* -------------------------------------------------
+     Content
+  ------------------------------------------------- */
+  .content{ padding: 40px 48px 48px; }
+
+  .name{
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .role{
+    margin: 6px 0 0;
+    color: var(--ink-soft);
+    font-size: 1rem;
+  }
+
+  .contact-list{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.875rem;
+  }
+  .contact-item{ display: flex; gap: 10px; }
+  .contact-label{ color: var(--comment); min-width: 76px; }
+  .contact-value{ color: var(--ink-soft); }
+  .contact-value a{ color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .contact-value a:hover, .contact-value a:focus-visible{ color: var(--keyword); border-bottom-color: var(--keyword); }
+
+  hr.divider{
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 32px 0;
+  }
+
+  section{ margin-bottom: 32px; }
+  section:last-of-type{ margin-bottom: 0; }
+
+  .section-label{
+    color: var(--comment);
+    font-size: 0.85rem;
+    margin: 0 0 14px;
+  }
+
+  .profile-text{
+    margin: 0;
+    max-width: 62ch;
+    color: var(--ink);
+  }
+
+  /* Experience / education entries */
+  .entry{
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .entry:last-child{ margin-bottom: 0; }
+  .entry-date{
+    color: var(--keyword);
+    font-size: 0.82rem;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .entry-heading{ margin: 0; font-weight: 600; }
+  .entry-heading .org{ color: var(--string); font-weight: 500; }
+  .entry-desc{
+    margin: 6px 0 0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    max-width: 52ch;
+  }
+  .entry-desc ul{ margin: 0; padding-left: 18px; }
+  .entry-desc li{ margin-bottom: 3px; }
+
+  /* Skills */
+  .skills-group{ margin-bottom: 14px; }
+  .skills-group:last-child{ margin-bottom: 0; }
+  .skills-group-label{
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+  }
+  .tag-list{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag{
+    font-size: 0.8rem;
+    padding: 3px 9px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper);
+  }
+  .tag.lang{ color: var(--keyword); }
+  .tag.web{ color: var(--comment); }
+  .tag.tool{ color: var(--string); }
+
+  /* Projects */
+  .project{ margin-bottom: 14px; }
+  .project:last-child{ margin-bottom: 0; }
+  .project-name{ font-weight: 600; }
+  .project-name a{ color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .project-name a:hover, .project-name a:focus-visible{ color: var(--keyword); border-bottom-color: var(--keyword); }
+  .project-desc{ margin: 4px 0 0; color: var(--ink-soft); font-size: 0.92rem; max-width: 52ch; }
+
+  /* -------------------------------------------------
+     Responsive
+  ------------------------------------------------- */
+  @media (max-width: 600px){
+    body{ padding: 24px 12px; }
+    .content{ padding: 28px 24px 36px; }
+    .entry{ grid-template-columns: 1fr; gap: 4px; }
+    .entry-date{ padding-top: 0; }
+  }
+
+  /* -------------------------------------------------
+     Print
+  ------------------------------------------------- */
+  @media print{
+    body{ background: #fff; padding: 0; }
+    .window{ border: none; box-shadow: none; border-radius: 0; max-width: none; }
+    .chrome-bar{ display: none; }
+    .content{ padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="window">
+
+    <div class="chrome-bar">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green"></span>
+      <span class="chrome-title mono">curriculum-vitae.html</span>
+    </div>
+
+    <div class="content">
+
+      <!-- Reemplaza estos datos con los tuyos -->
+      <h1 class="name mono">Tu Nombre Apellido</h1>
+      <p class="role">Desarrollador de Software Jr. · Estudiante de Ingeniería en Sistemas</p>
+
+      <div class="contact-list mono">
+        <div class="contact-item">
+          <span class="contact-label">correo</span>
+          <span class="contact-value"><a href="mailto:tu.correo@ejemplo.com">tu.correo@ejemplo.com</a></span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">teléfono</span>
+          <span class="contact-value">+52 000 000 0000</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">ubicación</span>
+          <span class="contact-value">Celaya, Guanajuato, México</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">github</span>
+          <span class="contact-value"><a href="https://github.com/tu-usuario" target="_blank" rel="noopener">github.com/tu-usuario</a></span>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- Perfil -->
+      <section>
+        <p class="section-label mono">// perfil</p>
+        <p class="profile-text">
+          Estudiante de Ingeniería en Sistemas con experiencia práctica en Java y Python,
+          enfocado en programación orientada a objetos y en el desarrollo de pequeños proyectos
+          web. Aprendo rápido, cuido el detalle en el código y disfruto convertir ideas simples
+          en herramientas que funcionan bien.
+        </p>
+      </section>
+
+      <!-- Experiencia -->
+      <section>
+        <p class="section-label mono">// experiencia</p>
+
+        <div class="entry">
+          <div class="entry-date mono">2025 — actual</div>
+          <div>
+            <p class="entry-heading">Desarrollador de prácticas <span class="org">— Nombre de la Empresa</span></p>
+            <div class="entry-desc">
+              <ul>
+                <li>Describe aquí una responsabilidad o logro concreto.</li>
+                <li>Describe una segunda contribución medible si puedes.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-date mono">2023 — 2025</div>
+          <div>
+            <p class="entry-heading">Puesto anterior <span class="org">— Otra Empresa</span></p>
+            <div class="entry-desc">
+              <ul>
+                <li>Describe una tarea o proyecto relevante de esta etapa.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Educación -->
+      <section>
+        <p class="section-label mono">// educación</p>
+
+        <div class="entry">
+          <div class="entry-date mono">2021 — 2025</div>
+          <div>
+            <p class="entry-heading">Ingeniería en Sistemas Computacionales <span class="org">— Tu Universidad</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Habilidades -->
+      <section>
+        <p class="section-label mono">// habilidades</p>
+
+        <div class="skills-group">
+          <p class="skills-group-label">Lenguajes</p>
+          <div class="tag-list mono">
+            <span class="tag lang">Java</span>
+            <span class="tag lang">Python</span>
+            <span class="tag lang">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-label">Web</p>
+          <div class="tag-list mono">
+            <span class="tag web">HTML</span>
+            <span class="tag web">CSS</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <p class="skills-group-label">Herramientas</p>
+          <div class="tag-list mono">
+            <span class="tag tool">Git</span>
+            <span class="tag tool">GitHub</span>
+            <span class="tag tool">VS Code</span>
+            <span class="tag tool">Vercel</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Proyectos -->
+      <section>
+        <p class="section-label mono">// proyectos</p>
+
+        <div class="project">
+          <p class="project-name"><a href="#" target="_blank" rel="noopener">Nombre del proyecto</a></p>
+          <p class="project-desc">Una línea describiendo qué hace el proyecto y qué tecnología usaste.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</body>
+</html>
 </body>
 </html>
